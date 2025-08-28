@@ -1,0 +1,22 @@
+services:
+  pysyslog:
+    image: pysyslog
+    container_name: pysyslog
+    restart: always
+    ports:
+      - 514:514/udp
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.1"
+          memory: 32M
+        limits:
+          cpus: 1
+          memory: 128M
+    healthcheck:
+      test: netstat -aun | grep 514 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+networks: {}
