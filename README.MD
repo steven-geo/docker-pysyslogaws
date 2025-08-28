@@ -48,6 +48,7 @@ Actions:
   - logs:CreateLogStream
   - logs:PutLogEvents
   - logs:PutRetentionPolicy
+
 Resource:
     - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/external/pysyslog/*
     - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/external/pysyslog/*:log-stream:*
