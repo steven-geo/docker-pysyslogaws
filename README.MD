@@ -29,6 +29,28 @@ What you will need to
 * If you are running on-premises you will need AWS credentials available to this container. (Refer to the boto3 documentation on methods: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html)
 * A static IP for syslog Server - a number of devices do not support DNS for setting the syslog server destination.
 
+## Setting up options
+
+There are a few options that are currently hard coded in the python script. In the future I want to make these into Environment Variable options.
+
+CWLOGGROUPNAME - This is the log group name that will be used in AWS
+
+LOGRETENTIONDAYS - The number of days to keep the CloudWatch Logs. Ensure you use a valid numbers of days as per the AWS documentation. (https://boto3.amazonaws.com/v1/documentation/api/1.26.93/reference/services/logs/client/put_retention_policy.html)
+
+AWS_REGION - As I use this on-prem, this is required so the script will put the logs into the correct region.
+
+
+
+## **AWS IAM Permissions**
+
+Actions:
+  - logs:CreateLogGroup
+  - logs:CreateLogStream
+  - logs:PutLogEvents
+  - logs:PutRetentionPolicy
+Resource:
+    - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/external/pysyslog/*
+    - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/external/pysyslog/*:log-stream:*
 
 ## **Managing Hostnames**
 
