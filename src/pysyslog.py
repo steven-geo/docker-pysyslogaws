@@ -13,10 +13,13 @@ import syslogmessagehandler
 # TODO: Split processing into a seperate thread to scale better.
 # TODO: Improve syslog decoding Regex matches
 # TODO: Improve and expand testing messages and add more exchaustive testing
+# TODO: Make Log Group Name, Log Retention and AWS Region into Environment options
 
 HOST, PORT = "0.0.0.0", 514
 CWLOGGROUPNAME = '/external/pysyslog'
+LOGRETENTIONDAYS = 30
 AWS_REGION = "ap-southeast-4"
+
 hostlookup = {}
 
 cwlogs = boto3.client('logs', region_name=AWS_REGION)
@@ -201,7 +204,7 @@ if __name__ == "__main__":
         if str(sys.argv[1]) == "test":
             sys.exit()
     # Create Log Group if it doesn't exist
-    createloggroup(CWLOGGROUPNAME, 30)
+    createloggroup(CWLOGGROUPNAME, LOGRETENTIONDAYS)
     # Setup Log connection and listen on port
     try:
         server = socketserver.UDPServer((HOST,PORT), SyslogUDPHandler)
